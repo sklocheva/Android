@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyFirstApplication</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_up_and_down">UpAndDownActivity</string>
+    <string name="title_activity_guess_the_number">GuessTheNumberActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+</resources>
