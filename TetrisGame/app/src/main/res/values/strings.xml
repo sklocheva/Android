@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TetrisGame</string>
+    <string name="levelText">Level: </string>
+    <string name="scoreText">Score: </string>
+
+    <dimen name="textSize">25sp</dimen>
+</resources>
