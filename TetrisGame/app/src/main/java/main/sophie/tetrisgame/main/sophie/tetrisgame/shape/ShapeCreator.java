@@ -1,5 +1,7 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
+import android.widget.TableLayout;
+
 import main.sophie.tetrisgame.MainActivity;
 
 /**
@@ -8,13 +10,13 @@ import main.sophie.tetrisgame.MainActivity;
 
 public class ShapeCreator {
 
-    private int[][] table;
+    private TableLayout[][] table;
 
-    public ShapeCreator(int[][] table) {
+    public ShapeCreator(TableLayout[][] table) {
         this.table = table;
     }
 
-    public static IShape createShape(MainActivity.TileShape tileShape, MainActivity activiry) {
+    public static AbstractShape createShape(MainActivity.TileShape tileShape) {
         return null;
     }
 }

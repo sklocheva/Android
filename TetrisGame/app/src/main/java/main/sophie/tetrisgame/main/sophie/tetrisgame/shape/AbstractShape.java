@@ -1,6 +1,7 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
 import android.graphics.Color;
+import android.widget.TableLayout;
 
 import main.sophie.tetrisgame.MainActivity;
 
@@ -15,17 +16,39 @@ public abstract class AbstractShape {
     protected int[] coordinatesY;
     protected boolean isRotated = false;
 
-    protected int[][] table;
-    protected MainActivity activity;
+    protected TableLayout[][] table;
 
-    public AbstractShape(int[][] table, MainActivity activity) {
+    public AbstractShape(TableLayout[][] table) {
         this.table = table;
-        this.activity = activity;
         this.coordinatesX = new int[4];
         this.coordinatesY = new int[4];
     }
 
     public abstract void rotate();
+
+    //make internal after tests
+    public abstract void draw();
+
+    /**
+     * checks for collisions on the left
+     *
+     * @return true if there are collisions
+     */
+    abstract boolean checkCollisionLeft();
+
+    /**
+     * checks for collisions on the right
+     *
+     * @return true if there are collisions
+     */
+    abstract boolean checkCollisionRight();
+
+    /**
+     * checks for collisions on going down
+     *
+     * @return true if there are collisions
+     */
+    abstract boolean checkCollisionDown();
 
     public void left() {
         int[] helper = new int[4];
@@ -33,6 +56,9 @@ public abstract class AbstractShape {
         for (int i = 0; i < coordinatesX.length; i++) {
             helper[i] = coordinatesX[i] - 1;
             if (helper[i] < 0) {
+                return;
+            }
+            if (checkCollisionLeft()) {
                 return;
             }
         }
@@ -46,6 +72,9 @@ public abstract class AbstractShape {
         for (int i = 0; i < coordinatesX.length; i++) {
             helper[i] = coordinatesX[i] + 1;
             if (helper[i] >= MainActivity.W) {
+                return;
+            }
+            if (checkCollisionRight()) {
                 return;
             }
         }
@@ -65,23 +94,34 @@ public abstract class AbstractShape {
             if (helper[i] >= MainActivity.H) {
                 return;
             }
+            if (checkCollisionDown()) {
+                return;
+            }
         }
         // update view properties
         updateY(helper);
     }
 
-    private void updateX(int[] newCoordinates) {
+    protected void updateX(int[] newCoordinates) {
         for (int i = 0; i < 4; i++) {
-            activity.findViewById(table[coordinatesX[i]][coordinatesY[i]]).setBackgroundColor(Color.WHITE);
-            activity.findViewById(table[newCoordinates[i]][coordinatesY[i]]).setBackgroundColor(Color.RED);
+            table[coordinatesY[i]][coordinatesX[i]].setBackgroundColor(Color.WHITE);
+//            table[coordinatesY[i]][newCoordinates[i]].setBackgroundColor(Color.RED);
+        }
+        for (int i = 0; i < 4; i++) {
+//            table[coordinatesY[i]][coordinatesX[i]].setBackgroundColor(Color.WHITE);
+            table[coordinatesY[i]][newCoordinates[i]].setBackgroundColor(Color.RED);
         }
         coordinatesX = newCoordinates;
     }
 
-    private void updateY(int[] newCoordinates) {
+    protected void updateY(int[] newCoordinates) {
         for (int i = 0; i < 4; i++) {
-            activity.findViewById(table[coordinatesX[i]][coordinatesY[i]]).setBackgroundColor(Color.WHITE);
-            activity.findViewById(table[coordinatesX[i]][newCoordinates[i]]).setBackgroundColor(Color.RED);
+            table[coordinatesY[i]][coordinatesX[i]].setBackgroundColor(Color.WHITE);
+//            table[newCoordinates[i]][coordinatesX[i]].setBackgroundColor(Color.RED);
+        }
+        for (int i = 0; i < 4; i++) {
+//            table[coordinatesY[i]][coordinatesX[i]].setBackgroundColor(Color.WHITE);
+            table[newCoordinates[i]][coordinatesX[i]].setBackgroundColor(Color.RED);
         }
         coordinatesY = newCoordinates;
     }

@@ -1,6 +1,8 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.widget.TableLayout;
 
 import main.sophie.tetrisgame.MainActivity;
 
@@ -9,17 +11,30 @@ import main.sophie.tetrisgame.MainActivity;
  */
 
 public class LineShape extends AbstractShape {
-    public LineShape(int[][] table, MainActivity activity) {
-        super(table, activity);
+    public LineShape(TableLayout[][] table) {
+        super(table);
     }
 
+    /**
+     * Rotates the line vertical, if there is enough Y space. If it is already roteted - rotates it back to horizontal.
+     */
     @Override
     public void rotate() {
+        //early kill
+        for (int x : coordinatesY) {
+            if (x < 2) {
+                return;
+            }
+        }
+        if (checkCollisionRotate()) {
+            return;
+        }
         int x;
         int y;
         int[] helperX = new int[4];
         int[] helperY = new int[4];
 
+        //if roteted - rotate back
         if (isRotated) {
             isRotated = false;
             //rotate back
@@ -31,7 +46,6 @@ public class LineShape extends AbstractShape {
                 x++;
                 y--;
             }
-
         } else {
             isRotated = true;
             //rotate
@@ -44,8 +58,14 @@ public class LineShape extends AbstractShape {
                 y++;
             }
         }
+        updateX(helperX);
+        updateY(helperY);
     }
 
+    /**
+     * draws the shape of a line
+     */
+    @Override
     public void draw() {
         //select middle and draw 2 cubes on both sides
         isRotated = false;
@@ -53,13 +73,91 @@ public class LineShape extends AbstractShape {
         if (middle % 2 != 0) {
             middle = middle + 1;
         }
+        middle = middle / 2;
         int counterC = 0;
         for (int i = middle - 2; i < middle + 2; i++) {
-            activity.findViewById(table[i][0]).setBackgroundColor(Color.RED);
-
-            coordinatesX[counterC] = i;
+            table[0][i].setBackgroundColor(Color.RED);
             coordinatesY[counterC] = 0;
+            coordinatesX[counterC] = i;
             counterC++;
+        }
+    }
+
+    private boolean checkCollisionRotate() {
+        if (isRotated) {
+            for (int i = 1; i < 3; i++) {
+                int id = ((ColorDrawable) table[coordinatesY[2]][coordinatesX[2] - i].getBackground()).getColor();
+                if (id != Color.WHITE) {
+                    return true;
+                }
+            }
+            int id = ((ColorDrawable) table[coordinatesY[2]][coordinatesX[2] + 1].getBackground()).getColor();
+            if (id != Color.WHITE) {
+                return true;
+            }
+        } else {
+            int id = ((ColorDrawable) table[coordinatesY[2] + 1][coordinatesX[2]].getBackground()).getColor();
+            if (id != Color.WHITE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    boolean checkCollisionLeft() {
+        if (isRotated) {
+            for (int y : coordinatesY) {
+                int id = ((ColorDrawable) table[y][coordinatesX[0] - 1].getBackground()).getColor();
+                if (id != Color.WHITE) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[0] - 1].getBackground()).getColor();
+            if (id != Color.WHITE) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    @Override
+    boolean checkCollisionRight() {
+        if (isRotated) {
+            for (int y : coordinatesY) {
+                int id = ((ColorDrawable) table[y][coordinatesX[0] + 1].getBackground()).getColor();
+                if (id != Color.WHITE) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[coordinatesX.length - 1] + 1].getBackground()).getColor();
+            if (id != Color.WHITE) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    @Override
+    boolean checkCollisionDown() {
+        if (isRotated) {
+            int id = ((ColorDrawable) table[coordinatesY[coordinatesY.length - 1] + 1][coordinatesX[0]].getBackground()).getColor();
+            if (id != Color.WHITE) {
+                return true;
+            }
+            return false;
+        } else {
+            for (int x : coordinatesX) {
+                int id = ((ColorDrawable) table[coordinatesY[0] + 1][x].getBackground()).getColor();
+                if (id != Color.WHITE) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
