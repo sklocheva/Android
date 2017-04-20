@@ -1,37 +1,21 @@
 package main.sophie.tetrisgame;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.CubeShape;
-import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.FourShape;
-import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.LShape;
-import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.LineShape;
+import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.AbstractShape;
+import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.ShapeCreator;
 import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.TShape;
 
 public class MainActivity extends AppCompatActivity {
-    public enum TileShape {
-        LineShape, TShape, SquareShape, LShape, ZShape
-    }
 
     public static final int H = 20;
     public static final int W = 20;
-    public static final float H1 = 10f;
-    public static final float W1 = 10f;
-    public static final String nameFormat = "row_%d_%d";
-//    private final int WEIGTH = 1;
-//    public HashMap<String, TableRow> matrixMap;
 
-    TableLayout gameLayout;
-    TableRow.LayoutParams param;
     ImageButton leftButton;
     ImageButton rightButton;
     ImageButton rotateButton;
@@ -40,27 +24,56 @@ public class MainActivity extends AppCompatActivity {
     //contains coordinates and id number of the view
     TableLayout[][] table;
 
+    private ShapeCreator creator;
+    private AbstractShape shape;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //add score and level
         leftButton = (ImageButton) findViewById(R.id.leftButton);
         rightButton = (ImageButton) findViewById(R.id.rightButton);
         rotateButton = (ImageButton) findViewById(R.id.rotateButton);
-
         matrixLayout = (TableLayout) findViewById(R.id.game_matrix);
 
+        leftButton.setOnClickListener(leftClick);
+        rightButton.setOnClickListener(rightClick);
+        rotateButton.setOnClickListener(rotateClick);
+        rotateButton.setOnLongClickListener(downClick);
 
         populateTable();
-
-        TShape s = new TShape(table);
-        s.draw();
-        s.down();
-        s.down();
-
-
+        shape = creator.createShape();
     }
+
+    View.OnClickListener leftClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            shape.left();
+        }
+    };
+    View.OnClickListener rightClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            shape.right();
+        }
+    };
+    View.OnClickListener rotateClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            shape.rotate();
+        }
+    };
+    View.OnLongClickListener downClick = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            if (shape.down()) {
+                return true;
+            }
+            return false;
+        }
+    };
 
     private void populateTable() {
 
@@ -77,11 +90,13 @@ public class MainActivity extends AppCompatActivity {
             for (int j = 0; j < W; j++) {
                 TableLayout l = new TableLayout(this);
                 l.setLayoutParams(rowElP);
-                l.setBackgroundColor(Color.WHITE);
+                l.setBackgroundColor(AbstractShape.ID_BACKGROUND);
                 table[i][j] = l;
                 row.addView(l);
             }
             matrixLayout.addView(row);
         }
+
+        creator = new ShapeCreator(table);
     }
 }

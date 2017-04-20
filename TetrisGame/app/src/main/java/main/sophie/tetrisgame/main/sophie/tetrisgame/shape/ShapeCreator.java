@@ -11,12 +11,38 @@ import main.sophie.tetrisgame.MainActivity;
 public class ShapeCreator {
 
     private TableLayout[][] table;
+    private FigureNames name;
+    private AbstractShape shape;
 
     public ShapeCreator(TableLayout[][] table) {
         this.table = table;
     }
 
-    public static AbstractShape createShape(MainActivity.TileShape tileShape) {
-        return null;
+    /**
+     * Generates a random shape and draws is in the matrix.
+     *
+     * @return a random shape object
+     */
+    public AbstractShape createShape() {
+        name = name.randomLetter();
+        switch (name) {
+            case CUBE_SHAPE:
+                shape = new CubeShape(table);
+                break;
+            case FOUR_SHAPE:
+                shape = new FourShape(table);
+                break;
+            case LINE_SHAPE:
+                shape = new LineShape(table);
+                break;
+            case L_SHAPE:
+                shape = new LShape(table);
+                break;
+            case T_SHAPE:
+                shape = new TShape(table);
+                break;
+        }
+        shape.draw();
+        return shape;
     }
 }

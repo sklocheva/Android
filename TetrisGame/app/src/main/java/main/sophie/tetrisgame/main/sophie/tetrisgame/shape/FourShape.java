@@ -1,6 +1,5 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.TableLayout;
 
@@ -76,12 +75,12 @@ public class FourShape extends AbstractShape {
         int counterC = 0;
         int counterY = 0;
         for (int i = middle - 1; i < middle + 1; i++) {
-            table[counterY][i].setBackgroundColor(Color.RED);
+            table[counterY][i].setBackgroundColor(ID_SHAPE);
             coordinatesY[counterC] = counterY;
             coordinatesX[counterC] = i;
             counterC++;
             counterY++;
-            table[counterY][i].setBackgroundColor(Color.RED);
+            table[counterY][i].setBackgroundColor(ID_SHAPE);
             coordinatesY[counterC] = counterY;
             coordinatesX[counterC] = i;
             counterC++;
@@ -91,20 +90,20 @@ public class FourShape extends AbstractShape {
     private boolean checkCollisionRotate() {
         if (isRotated) {
             int id = ((ColorDrawable) table[coordinatesY[0] - 1][coordinatesX[0]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             int id2 = ((ColorDrawable) table[coordinatesY[1] + 1][coordinatesX[1]].getBackground()).getColor();
-            if (id2 != Color.WHITE) {
+            if (checkDiffIdColor(id2)) {
                 return true;
             }
         } else {
             int id = ((ColorDrawable) table[coordinatesY[2] - 1][coordinatesX[2]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             int id2 = ((ColorDrawable) table[coordinatesY[2] - 1][coordinatesX[2] + 1].getBackground()).getColor();
-            if (id2 != Color.WHITE) {
+            if (checkDiffIdColor(id2)) {
                 return true;
             }
         }
@@ -115,22 +114,22 @@ public class FourShape extends AbstractShape {
     boolean checkCollisionLeft() {
         if (isRotated) {
             int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[0] - 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             int id2 = ((ColorDrawable) table[coordinatesY[2]][coordinatesX[2] - 1].getBackground()).getColor();
-            if (id2 != Color.WHITE) {
+            if (checkDiffIdColor(id2)) {
                 return true;
             }
         } else {
             for (int i = 0; i < 2; i++) {
                 int id = ((ColorDrawable) table[coordinatesY[i]][coordinatesX[0] - 1].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             int id = ((ColorDrawable) table[coordinatesY[3]][coordinatesX[3] - 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
         }
@@ -141,22 +140,22 @@ public class FourShape extends AbstractShape {
     boolean checkCollisionRight() {
         if (isRotated) {
             int id = ((ColorDrawable) table[coordinatesY[3]][coordinatesX[3] + 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             int id2 = ((ColorDrawable) table[coordinatesY[1]][coordinatesX[1] + 1].getBackground()).getColor();
-            if (id2 != Color.WHITE) {
+            if (checkDiffIdColor(id2)) {
                 return true;
             }
         } else {
             for (int i = 2; i < 4; i++) {
                 int id = ((ColorDrawable) table[coordinatesY[i]][coordinatesX[0] + 1].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[0] + 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
         }
@@ -168,22 +167,22 @@ public class FourShape extends AbstractShape {
         if (isRotated) {
             for (int i = 0; i < 2; i++) {
                 int id = ((ColorDrawable) table[coordinatesY[0] + 1][coordinatesX[i]].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             int id = ((ColorDrawable) table[coordinatesY[3] + 1][coordinatesX[3]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
 
         } else {
             int id = ((ColorDrawable) table[coordinatesY[1] + 1][coordinatesX[1]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             int id2 = ((ColorDrawable) table[coordinatesY[3] + 1][coordinatesX[3]].getBackground()).getColor();
-            if (id2 != Color.WHITE) {
+            if (checkDiffIdColor(id2)) {
                 return true;
             }
         }

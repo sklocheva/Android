@@ -1,6 +1,5 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
-import android.graphics.Color;
 import android.widget.TableLayout;
 
 import main.sophie.tetrisgame.MainActivity;
@@ -30,12 +29,12 @@ public class TShape extends AbstractShape {
         middle = middle / 2;
         int counterC = 0;
         for (int i = middle - 1; i < middle + 2; i++) {
-            table[0][i].setBackgroundColor(Color.RED);
+            table[0][i].setBackgroundColor(ID_SHAPE);
             coordinatesY[counterC] = 0;
             coordinatesX[counterC] = i;
             counterC++;
         }
-        table[1][middle].setBackgroundColor(Color.RED);
+        table[1][middle].setBackgroundColor(ID_SHAPE);
         coordinatesY[counterC] = 1;
         coordinatesX[counterC] = middle;
         counterC++;

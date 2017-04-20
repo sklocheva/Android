@@ -1,6 +1,5 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.widget.TableLayout;
 
@@ -76,7 +75,7 @@ public class LineShape extends AbstractShape {
         middle = middle / 2;
         int counterC = 0;
         for (int i = middle - 2; i < middle + 2; i++) {
-            table[0][i].setBackgroundColor(Color.RED);
+            table[0][i].setBackgroundColor(ID_SHAPE);
             coordinatesY[counterC] = 0;
             coordinatesX[counterC] = i;
             counterC++;
@@ -87,17 +86,17 @@ public class LineShape extends AbstractShape {
         if (isRotated) {
             for (int i = 1; i < 3; i++) {
                 int id = ((ColorDrawable) table[coordinatesY[2]][coordinatesX[2] - i].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             int id = ((ColorDrawable) table[coordinatesY[2]][coordinatesX[2] + 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
         } else {
             int id = ((ColorDrawable) table[coordinatesY[2] + 1][coordinatesX[2]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
         }
@@ -109,14 +108,14 @@ public class LineShape extends AbstractShape {
         if (isRotated) {
             for (int y : coordinatesY) {
                 int id = ((ColorDrawable) table[y][coordinatesX[0] - 1].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             return false;
         } else {
             int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[0] - 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             return false;
@@ -128,14 +127,14 @@ public class LineShape extends AbstractShape {
         if (isRotated) {
             for (int y : coordinatesY) {
                 int id = ((ColorDrawable) table[y][coordinatesX[0] + 1].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             return false;
         } else {
             int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[coordinatesX.length - 1] + 1].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             return false;
@@ -146,14 +145,14 @@ public class LineShape extends AbstractShape {
     boolean checkCollisionDown() {
         if (isRotated) {
             int id = ((ColorDrawable) table[coordinatesY[coordinatesY.length - 1] + 1][coordinatesX[0]].getBackground()).getColor();
-            if (id != Color.WHITE) {
+            if (checkDiffIdColor(id)) {
                 return true;
             }
             return false;
         } else {
             for (int x : coordinatesX) {
                 int id = ((ColorDrawable) table[coordinatesY[0] + 1][x].getBackground()).getColor();
-                if (id != Color.WHITE) {
+                if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
