@@ -1,6 +1,7 @@
 package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
@@ -8,6 +9,9 @@ import java.util.List;
 import java.util.Random;
 
 import main.sophie.tetrisgame.MainActivity;
+
+import static main.sophie.tetrisgame.MainActivity.H;
+import static main.sophie.tetrisgame.MainActivity.W;
 
 /**
  * Created by Laptop on 11.4.2017 г..
@@ -129,10 +133,12 @@ public abstract class AbstractShape {
         //check if you can add -1 to X - else return
         for (int i = 0; i < coordinatesY.length; i++) {
             helper[i] = coordinatesY[i] + 1;
-            if (helper[i] >= MainActivity.H) {
+            if (helper[i] >= H) {
+                updateTable();
                 return false;
             }
             if (checkCollisionDown()) {
+                updateTable();
                 return false;
             }
         }
@@ -184,4 +190,47 @@ public abstract class AbstractShape {
         return false;
     }
 
+    /**
+     * Updates the table every time a figure has finished going down.
+     * Checks for any rows that need to be updated and updates them.
+     * *** point system here ***
+     */
+    private void updateTable() {
+        boolean checked = false;
+        int j = 0;
+        while (!checked) {
+            outerloop:
+            for (j = H - 1; j >= 0; j--) {
+                for (int i = 0; i < W; i++) {
+                    if (!checkDiffIdColor(((ColorDrawable) table[j][i].getBackground()).getColor())) {
+                        checked = true;
+                        break outerloop;
+                    }
+                }
+
+            }
+        }
+
+        //if any changes found
+        if (j != H - 1) {
+            //clear from j down
+            int newJ = j;
+            for (int i = H - 1; i > j; i--) {
+                for (int y = 0; y < W; y++) {
+                    TableLayout oldL = table[i][y];
+                    if (newJ >= 0) {
+                        //update j and up
+                        TableLayout newL = table[newJ][y];
+                        oldL.setBackgroundColor(((ColorDrawable) newL.getBackground()).getColor());
+                        newL.setBackgroundColor(ID_BACKGROUND);
+                    } else {
+                        oldL.setBackgroundColor(ID_BACKGROUND);
+                    }
+                }
+                newJ--;
+            }
+
+        }
+
+    }
 }
