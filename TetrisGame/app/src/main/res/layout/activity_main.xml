@@ -10,104 +10,134 @@
     android:paddingLeft="7dp"
     android:paddingRight="7dp"
     android:paddingTop="5dp"
-    android:weightSum="20"
+    android:weightSum="1"
     tools:context="main.sophie.tetrisgame.MainActivity">
 
-    <!--score and level-->
+
     <LinearLayout
-        android:id="@+id/score_level"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9"
+        android:layout_weight="0.2"
         android:orientation="horizontal"
-        android:weightSum="2">
-        <!--score-->
-        <LinearLayout
+        android:weightSum="1">
+
+        <!--matrix-->
+        <TableLayout
+            android:id="@+id/game_matrix"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/scoreText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="monospace"
-                android:inputType="text"
-                android:text="@string/scoreText"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="cursive"
-                android:inputType="number"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize"
-                android:typeface="monospace" />
-        </LinearLayout>
-        <!--level-->
+            android:layout_margin="15dp"
+            android:layout_weight="0.2"
+            android:clickable="false"></TableLayout>
+        <!--score and level-->
         <LinearLayout
+            android:id="@+id/score_level"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_weight="0.8"
+            android:orientation="vertical"
+            android:weightSum="3">
 
-            <TextView
-                android:id="@+id/levelText"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/pause_button"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="monospace"
-                android:inputType="text"
-                android:text="@string/levelText"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize"
-                android:textStyle="bold" />
+                android:layout_margin="10dp"
+                android:layout_weight="1.2"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/pause" />
 
-            <TextView
-                android:id="@+id/level"
-                android:layout_width="wrap_content"
+            <!--level-->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:fontFamily="cursive"
-                android:inputType="number"
-                android:text="1"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textSize"
-                android:typeface="monospace" />
+                android:layout_weight="1.2"
+                android:orientation="vertical"
+                android:weightSum="1">
 
+                <TextView
+                    android:id="@+id/levelText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:fontFamily="monospace"
+                    android:gravity="bottom"
+                    android:inputType="text"
+                    android:text="@string/levelText"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+
+                    android:ems="10"
+                    android:fontFamily="cursive"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize"
+                    android:typeface="monospace" />
+
+            </LinearLayout>
+            <!--score-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/scoreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="fill"
+                    android:layout_weight="0.5"
+                    android:elegantTextHeight="false"
+                    android:ems="10"
+                    android:fontFamily="monospace"
+                    android:gravity="bottom"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:text="@string/scoreText"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:ems="10"
+                    android:fontFamily="cursive"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/textSize"
+                    android:typeface="monospace" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <!--matrix-->
-    <TableLayout
-        android:id="@+id/game_matrix"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:layout_weight="2.5"
-        android:clickable="false">
 
-    </TableLayout>
 
     <!--buttons-->
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8.5"
+        android:layout_weight="0.8"
         android:orientation="horizontal"
         android:weightSum="3">
 
@@ -131,8 +161,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:longClickable="true"
             android:background="@android:color/transparent"
+            android:longClickable="true"
             android:scaleType="centerInside"
             app:srcCompat="@drawable/rotate_right" />
 

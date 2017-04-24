@@ -12,6 +12,7 @@ import main.sophie.tetrisgame.MainActivity;
 
 import static main.sophie.tetrisgame.MainActivity.H;
 import static main.sophie.tetrisgame.MainActivity.W;
+import static main.sophie.tetrisgame.R.id.score;
 
 /**
  * Created by Laptop on 11.4.2017 г..
@@ -134,11 +135,9 @@ public abstract class AbstractShape {
         for (int i = 0; i < coordinatesY.length; i++) {
             helper[i] = coordinatesY[i] + 1;
             if (helper[i] >= H) {
-                updateTable();
                 return false;
             }
             if (checkCollisionDown()) {
-                updateTable();
                 return false;
             }
         }
@@ -195,7 +194,8 @@ public abstract class AbstractShape {
      * Checks for any rows that need to be updated and updates them.
      * *** point system here ***
      */
-    private void updateTable() {
+    public int updateTable() {
+        int score = 0;
         boolean checked = false;
         int j = 0;
         while (!checked) {
@@ -226,11 +226,12 @@ public abstract class AbstractShape {
                     } else {
                         oldL.setBackgroundColor(ID_BACKGROUND);
                     }
+                    score++;
                 }
                 newJ--;
             }
 
         }
-
+        return score;
     }
 }

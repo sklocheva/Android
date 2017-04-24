@@ -1,6 +1,5 @@
 package main.sophie.tetrisgame;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,76 +9,25 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.AbstractShape;
-import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.ShapeCreator;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int H = 20;
-    public static final int W = 20;
+    public static final int W = 15;
 
     private final int DISPLAY_LENGTH = 1000;
     ImageButton leftButton;
     ImageButton rightButton;
     ImageButton rotateButton;
+    ImageButton pauseButton;
     TableLayout matrixLayout;
 
+    public static TextView score;
+    TextView level;
+
     //contains coordinates and id number of the view
+    GameThread thread;
     TableLayout[][] table;
-
-    private ShapeCreator creator;
-    private AbstractShape shape;
-    private boolean playing = true;
-
-    private Thread gameThread = new Thread() {
-
-        @Override
-        public void run() {
-            try {
-                while (!isInterrupted()) {
-                    Thread.sleep(1000);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            shape = creator.createShape();
-
-                        }
-                    });
-                    Thread figureThread = new Thread() {
-
-                        @Override
-                        public void run() {
-                            try {
-                                playing = true;
-                                while (playing) {
-                                    Thread.sleep(1000);
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (!shape.down()) {
-                                                playing = false;
-                                            }
-                                        }
-                                    });
-                                }
-                            } catch (InterruptedException e) {
-                                Thread.currentThread().interrupt();//preserve the message
-                                return;//
-                            }
-                        }
-                    };
-                    figureThread.start();
-                    try {
-                        figureThread.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();//preserve the message
-                return;//
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,52 +38,60 @@ public class MainActivity extends AppCompatActivity {
         leftButton = (ImageButton) findViewById(R.id.leftButton);
         rightButton = (ImageButton) findViewById(R.id.rightButton);
         rotateButton = (ImageButton) findViewById(R.id.rotateButton);
+        pauseButton = (ImageButton) findViewById(R.id.pause_button);
         matrixLayout = (TableLayout) findViewById(R.id.game_matrix);
 
-        TextView score = (TextView) findViewById(R.id.score);
-        TextView level = (TextView) findViewById(R.id.level);
+        score = (TextView) findViewById(R.id.score);
+        level = (TextView) findViewById(R.id.level);
 
         leftButton.setOnClickListener(leftClick);
         rightButton.setOnClickListener(rightClick);
         rotateButton.setOnClickListener(rotateClick);
-        rotateButton.setOnLongClickListener(downClick);
-
-        populateTable();
-        gameThread.start();
-
+        pauseButton.setOnClickListener(pauseClick);
+        matrixLayout.setClickable(true);
+        matrixLayout.setOnClickListener(downClick);
+        GameThread thread = new GameThread(this, populateTable());
+        thread.run();
     }
 
     View.OnClickListener leftClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            shape.left();
+            thread.shape.left();
         }
     };
     View.OnClickListener rightClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            shape.right();
+            thread.shape.right();
         }
     };
     View.OnClickListener rotateClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            shape.rotate();
+            thread.shape.rotate();
         }
     };
-    View.OnLongClickListener downClick = new View.OnLongClickListener() {
+    View.OnClickListener downClick = new View.OnClickListener() {
         @Override
-        public boolean onLongClick(View view) {
-            if (shape.down()) {
-                return true;
+        public void onClick(View view) {
+            thread.shape.down();
+        }
+    };
+    View.OnClickListener pauseClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (thread.isPaused) {
+                thread.isPaused = false;
+            } else {
+                thread.isPaused = true;
             }
-            return false;
         }
     };
 
-    private void populateTable() {
+    private TableLayout[][] populateTable() {
 
-        table = new TableLayout[H][W];
+        TableLayout[][] table = new TableLayout[H][W];
         matrixLayout.setWeightSum(H);
         TableLayout.LayoutParams matrixRowP = new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 0, 1f);
         TableRow.LayoutParams rowElP = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1f);
@@ -154,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
             }
             matrixLayout.addView(row);
         }
-
-        creator = new ShapeCreator(table);
+        return table;
     }
 
 
