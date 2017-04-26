@@ -15,7 +15,8 @@ public class LineShape extends AbstractShape {
     }
 
     /**
-     * Rotates the line vertical, if there is enough Y space. If it is already roteted - rotates it back to horizontal.
+     * Rotates the line vertical, if there is enough Y space.
+     * If it is already roteted - rotates it back to horizontal.
      */
     @Override
     public void rotate() {
@@ -107,14 +108,20 @@ public class LineShape extends AbstractShape {
     boolean checkCollisionLeft() {
         if (isRotated) {
             for (int y : coordinatesY) {
-                int id = ((ColorDrawable) table[y][coordinatesX[0] - 1].getBackground()).getColor();
+                int id = ((ColorDrawable)
+                        table[y][coordinatesX[0] - 1]
+                                .getBackground())
+                                    .getColor();
                 if (checkDiffIdColor(id)) {
                     return true;
                 }
             }
             return false;
         } else {
-            int id = ((ColorDrawable) table[coordinatesY[0]][coordinatesX[0] - 1].getBackground()).getColor();
+            int id = ((ColorDrawable)
+                    table[coordinatesY[0]][coordinatesX[0] - 1]
+                            .getBackground())
+                                .getColor();
             if (checkDiffIdColor(id)) {
                 return true;
             }

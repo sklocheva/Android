@@ -1,9 +1,18 @@
 package main.sophie.tetrisgame;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -16,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int W = 15;
 
     private final int DISPLAY_LENGTH = 1000;
+    LinearLayout mainBackground;
     ImageButton leftButton;
     ImageButton rightButton;
     ImageButton rotateButton;
@@ -25,16 +35,20 @@ public class MainActivity extends AppCompatActivity {
     public static TextView score;
     TextView level;
 
+    SharedPreferences pref;
+
     //contains coordinates and id number of the view
     GameThread thread;
     TableLayout[][] table;
+    AlertDialog.Builder dlgAlert;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainBackground = (LinearLayout) findViewById(R.id.main_background);
 
-        //add score and level
         leftButton = (ImageButton) findViewById(R.id.leftButton);
         rightButton = (ImageButton) findViewById(R.id.rightButton);
         rotateButton = (ImageButton) findViewById(R.id.rotateButton);
@@ -89,12 +103,53 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        thread.isPaused = true;
+        switch (id) {
+            case R.id.about:
+                new AlertDialog.Builder(this)
+                        .setTitle("About App")
+                        .setMessage("This is a university project app. Creator: Sophia Klocheva 1401682030")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                thread.isPaused = false;
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                return true;
+
+            case R.id.exit:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private TableLayout[][] populateTable() {
 
         TableLayout[][] table = new TableLayout[H][W];
         matrixLayout.setWeightSum(H);
-        TableLayout.LayoutParams matrixRowP = new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, 0, 1f);
-        TableRow.LayoutParams rowElP = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1f);
+        TableLayout.LayoutParams matrixRowP =
+                new TableLayout.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT, 0, 1f);
+        TableRow.LayoutParams rowElP =
+                new TableRow.LayoutParams(
+                        0, TableRow.LayoutParams.MATCH_PARENT, 1f);
         rowElP.setMargins(1, 1, 1, 1);
 
         for (int i = 0; i < H; i++) {

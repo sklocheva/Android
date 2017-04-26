@@ -82,8 +82,8 @@ public class GameThread implements Runnable {
                         while (isPaused) {
                             //being paused
                         }
-                        activity.runOnUiThread(UIShapeDown);
                         Thread.sleep(1000);
+                        activity.runOnUiThread(UIShapeDown);
                     }
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();//preserve the message

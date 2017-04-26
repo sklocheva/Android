@@ -33,7 +33,8 @@ public abstract class AbstractShape {
 
     private Random randomGenerator;
     //list of available colors for the shapes
-    private static final List<Integer> COLORS = new ArrayList<Integer>() {{
+    private static final List<Integer> COLORS =
+            new ArrayList<Integer>() {{
         add(Color.RED);
         add(Color.GREEN);
         add(Color.CYAN);
@@ -47,15 +48,15 @@ public abstract class AbstractShape {
         this.coordinatesX = new int[4];
         this.coordinatesY = new int[4];
         randomGenerator = new Random();
-        ID_SHAPE = COLORS.get(randomGenerator.nextInt(COLORS.size()));
+        ID_SHAPE = COLORS.get(
+                randomGenerator.nextInt(
+                        COLORS.size()));
     }
 
     /**
      * Checks for collisions and then rotates the shape.
      */
     public abstract void rotate();
-
-    //make internal after tests
 
     /**
      * Draws the shape in the upper middle of the matrix.
@@ -131,15 +132,11 @@ public abstract class AbstractShape {
         // add 1 to Y
         // update view properties
         int[] helper = new int[4];
-        //check if you can add -1 to X - else return
+        //check if you can add -1 to X - else return false
         for (int i = 0; i < coordinatesY.length; i++) {
             helper[i] = coordinatesY[i] + 1;
-            if (helper[i] >= H) {
-                return false;
-            }
-            if (checkCollisionDown()) {
-                return false;
-            }
+            if (helper[i] >= H) { return false; }
+            if (checkCollisionDown()) { return false; }
         }
         // update view properties
         updateY(helper);

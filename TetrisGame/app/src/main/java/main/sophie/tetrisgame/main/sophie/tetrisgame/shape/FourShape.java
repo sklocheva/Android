@@ -57,9 +57,7 @@ public class FourShape extends AbstractShape {
                 y--;
             }
         }
-
         updateX(helperX);
-
         updateY(helperY);
 
     }
