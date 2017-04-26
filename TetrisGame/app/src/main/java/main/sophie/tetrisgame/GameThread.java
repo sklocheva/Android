@@ -76,7 +76,7 @@ public class GameThread implements Runnable {
             @Override
             public synchronized void run() {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                     falling = true;
                     while (falling) {
                         while (isPaused) {

@@ -45,9 +45,9 @@ public class CubeShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionLeft() {
+    protected boolean checkCollisionLeft() {
         for (int i = 0; i < 2; i++) {
-            if (checkDiffIdColor(((ColorDrawable) table[i][coordinatesX[i] - 1].getBackground()).getColor())) {
+            if (checkDiffIdColor(((ColorDrawable) table[i][coordinatesX[0] - 1].getBackground()).getColor())) {
                 return true;
             }
         }
@@ -55,9 +55,9 @@ public class CubeShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionRight() {
+    protected boolean checkCollisionRight() {
         for (int i = 2; i < 4; i++) {
-            int id = ((ColorDrawable) table[i][coordinatesX[i] + 1].getBackground()).getColor();
+            int id = ((ColorDrawable) table[i][coordinatesX[2] + 1].getBackground()).getColor();
             if (checkDiffIdColor(id)) {
                 return true;
             }
@@ -66,7 +66,7 @@ public class CubeShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionDown() {
+    protected boolean checkCollisionDown() {
         int id = ((ColorDrawable) table[coordinatesY[1] + 1][coordinatesX[1]].getBackground()).getColor();
         if (checkDiffIdColor(id)) {
             return true;

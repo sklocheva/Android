@@ -2,7 +2,7 @@ package main.sophie.tetrisgame.main.sophie.tetrisgame.shape;
 
 import android.widget.TableLayout;
 
-import main.sophie.tetrisgame.MainActivity;
+import main.sophie.tetrisgame.main.sophie.tetrisgame.shape.lshape.LShape;
 
 /**
  * Created by Sophie on 11.4.2017 г..

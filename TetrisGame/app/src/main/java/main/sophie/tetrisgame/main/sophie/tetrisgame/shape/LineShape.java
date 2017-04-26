@@ -105,7 +105,7 @@ public class LineShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionLeft() {
+    protected boolean checkCollisionLeft() {
         if (isRotated) {
             for (int y : coordinatesY) {
                 int id = ((ColorDrawable)
@@ -130,7 +130,7 @@ public class LineShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionRight() {
+    protected boolean checkCollisionRight() {
         if (isRotated) {
             for (int y : coordinatesY) {
                 int id = ((ColorDrawable) table[y][coordinatesX[0] + 1].getBackground()).getColor();
@@ -149,7 +149,7 @@ public class LineShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionDown() {
+    protected boolean checkCollisionDown() {
         if (isRotated) {
             int id = ((ColorDrawable) table[coordinatesY[coordinatesY.length - 1] + 1][coordinatesX[0]].getBackground()).getColor();
             if (checkDiffIdColor(id)) {

@@ -35,13 +35,13 @@ public abstract class AbstractShape {
     //list of available colors for the shapes
     private static final List<Integer> COLORS =
             new ArrayList<Integer>() {{
-        add(Color.RED);
-        add(Color.GREEN);
-        add(Color.CYAN);
-        add(Color.BLUE);
-        add(Color.WHITE);
-        add(Color.YELLOW);
-    }};
+                add(Color.RED);
+                add(Color.GREEN);
+                add(Color.CYAN);
+                add(Color.BLUE);
+                add(Color.WHITE);
+                add(Color.YELLOW);
+            }};
 
     public AbstractShape(TableLayout[][] table) {
         this.table = table;
@@ -62,28 +62,28 @@ public abstract class AbstractShape {
      * Draws the shape in the upper middle of the matrix.
      * Can be used to draw the figure in the ShapeCreator.
      */
-    abstract void draw();
+    protected abstract void draw();
 
     /**
      * Checks for collisions on the left.
      *
      * @return true if there are collisions
      */
-    abstract boolean checkCollisionLeft();
+    protected abstract boolean checkCollisionLeft();
 
     /**
      * Checks for collisions on the right.
      *
      * @return true if there are collisions
      */
-    abstract boolean checkCollisionRight();
+    protected abstract boolean checkCollisionRight();
 
     /**
      * Checks for collisions on going down.
      *
      * @return true if there are collisions
      */
-    abstract boolean checkCollisionDown();
+    protected abstract boolean checkCollisionDown();
 
     /**
      * Checks for collisions and then goes one cube to the left.
@@ -135,8 +135,12 @@ public abstract class AbstractShape {
         //check if you can add -1 to X - else return false
         for (int i = 0; i < coordinatesY.length; i++) {
             helper[i] = coordinatesY[i] + 1;
-            if (helper[i] >= H) { return false; }
-            if (checkCollisionDown()) { return false; }
+            if (helper[i] >= H) {
+                return false;
+            }
+        }
+        if (checkCollisionDown()) {
+            return false;
         }
         // update view properties
         updateY(helper);
@@ -179,7 +183,7 @@ public abstract class AbstractShape {
      * @param id color of the cube we need to check
      * @return true if it's different color than the background
      */
-    protected boolean checkDiffIdColor(int id) {
+    public boolean checkDiffIdColor(int id) {
         if (id != ID_BACKGROUND) {
             return true;
         }

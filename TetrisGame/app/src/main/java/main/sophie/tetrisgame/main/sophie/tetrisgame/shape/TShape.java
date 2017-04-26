@@ -41,17 +41,17 @@ public class TShape extends AbstractShape {
     }
 
     @Override
-    boolean checkCollisionLeft() {
+    protected boolean checkCollisionLeft() {
         return false;
     }
 
     @Override
-    boolean checkCollisionRight() {
+    protected boolean checkCollisionRight() {
         return false;
     }
 
     @Override
-    boolean checkCollisionDown() {
+    protected boolean checkCollisionDown() {
         return false;
     }
 }
